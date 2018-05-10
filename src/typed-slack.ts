@@ -172,3 +172,9 @@ export interface SlackInterActiveMessage {
   response_url: string
   trigger_id: string
 }
+
+export interface SlackRequest {
+  team_id: string
+  user_id: string
+  text: string
+}
