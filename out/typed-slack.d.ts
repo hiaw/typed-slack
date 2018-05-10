@@ -22,6 +22,16 @@ export declare enum Color {
     Warning = "warning",
     Danger = "danger",
 }
+export interface SelectOption {
+    value?: string;
+    text?: string;
+}
+export interface Action {
+    name?: string;
+    text?: string;
+    type: 'select';
+    options?: SelectOption[];
+}
 /**
  * Attaching content and links to messages
  * https://api.slack.com/docs/message-attachments
@@ -96,6 +106,9 @@ export interface Attachment {
      * Example: Providing 123456789 would result in a rendered timestamp of Nov 29th, 1973.
      */
     ts?: number;
+    attachment_type?: 'default';
+    callback_id?: string;
+    actions?: Action[];
 }
 /**
  * https://api.slack.com/incoming-webhooks
@@ -135,4 +148,34 @@ export declare class IncomingWebhook {
     url: string;
     constructor(url: string);
     send(options: IncomingWebhookOptions): rp.RequestPromise;
+}
+export interface SlackInterActiveMessage {
+    type: 'interactive_message';
+    actions: [{
+        name: 'games_list';
+        type: 'select';
+        selected_options: [{
+            value: 'bridge';
+        }];
+    }];
+    callback_id: string;
+    team: {
+        id: string;
+        domain: 'opendatanz';
+    };
+    channel: {
+        id: string;
+        name: 'directmessage';
+    };
+    user: {
+        id: string;
+        name: string;
+    };
+    action_ts: string;
+    message_ts: string;
+    attachment_id: string;
+    token: string;
+    is_app_unfurl: boolean;
+    response_url: string;
+    trigger_id: string;
 }
